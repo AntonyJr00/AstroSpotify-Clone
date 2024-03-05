@@ -9,15 +9,18 @@ import SideMenuItem from '../components/SideMenuItem.astro'
     <div class="bg-zinc-900 rounded-lg p-2">
         <ul>
             <SideMenuItem href='/'>
-                <HomeIcon/>
-                Home
+                <HomeIcon/> Inicio
             </SideMenuItem>
             <SideMenuItem href='/#'>
-                <SearchIcon/>
-                Search
+                <SearchIcon/> Buscar
             </SideMenuItem>
         </ul>
     </div>
-    
-    <LibraryIcon/>
+    <div class="bg-zinc-900 rounded-lg p-1 flex-1">
+        <ul>
+            <SideMenuItem href='/library'>
+                <LibraryIcon/> Tu biblioteca
+            </SideMenuItem>
+        </ul>
+    </div>
 </nav>
