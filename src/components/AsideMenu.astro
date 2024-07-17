@@ -9,7 +9,7 @@ import {playlists} from '../lib/data'
 ---
 
 <nav class="flex flex-col flex-1 gap-2">
-    <div class="bg-customColor rounded-lg p-2">
+    <div class="bg-dark-spotify rounded-lg p-2">
         <ul>
             <SideMenuItem href='/'>
                 <HomeIcon/> Inicio
@@ -19,9 +19,9 @@ import {playlists} from '../lib/data'
             </SideMenuItem>
         </ul>
     </div>
-    <div class="bg-customColor rounded-lg p-1 flex-1">
+    <div class="bg-dark-spotify rounded-lg p-1 flex-1">
         <ul>
-            <SideMenuItem href='/library'>
+            <SideMenuItem href='/#'>
                 <LibraryIcon/> Tu biblioteca
             </SideMenuItem>
 
@@ -31,9 +31,3 @@ import {playlists} from '../lib/data'
         </ul>
     </div>
 </nav>
-
-<style>
-    .bg-customColor {
-        background-color: rgba(12, 12, 12, 1);
-    }
-</style>

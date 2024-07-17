@@ -1,9 +1,11 @@
 ---
 import { Image } from "astro:assets";
 
+
+import { CardPlayButton } from "./CardPlayButton";
+
 import { type Playlist } from "@/lib/data";
-import IdAstro from "@/pages/playlist/[id].astro";
-import PlayIcon from "@/icons/Play.astro";
+
 interface Props {
     playlist: Playlist
 }
@@ -14,28 +16,25 @@ const {id,title,albumId,color,artists,cover} = playlist
 const artistsString = artists.join(', ')
 ---
 
-<a href={`playlist/${id}`} 
-   class="playlist-item transition-all duration-300 relative p-2 overflow-hidden gap-2 flex 
-   rounded-md hover:bg-zinc-800 shadow-lg hover:shadow-xl bg-zinc-500/30 w-full flex-row items-center
-   " transition:name=`playlist ${id} box`
->
- <picture class="aspect-square">
-    <Image width={48} height={48} src={cover} alt={`Cover of ${title} by ${artistsString}`}
-      class="object-cover w-12 h-auto rounded-md" loading={'eager'} transition:name=`playlist ${id} image`
-    >
- </picture>
-
- <div class="flex flex-auto flex-col truncate px-1 gap-1 justify-center">
-    <h4 class="text-base font-semibold" transition:name=`playlist ${id} title`>
-    {title}
-    </h4>
-    <span class="text-sm text-gray-400" transition:name=`playlist ${id} artist`>{artistsString}</span>
- </div>
-
-
- <div class="absolute inset-0 right-2 flex items-center justify-end opacity-0 hover:opacity-100 transition-opacity duration-300">
-    <div class="bg-green-500 grid place-content-center rounded-full w-12 h-12">
-       <PlayIcon />
+<article class="group relative hover:bg-zinc-800 shadow-lg hover:shadow-xl bg-zinc-500/30 rounded-md transition-all duration-300">
+   <div class="absolute right-3 top-2 translate-x-4 transition-all duration-500 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 z-20">
+      <CardPlayButton id={id} size="small" client:visible/>
    </div>
-</div>
-</a>
+   <a href={`playlist/${id}`}
+   class="playlist-item relative p-2 overflow-hidden gap-2 flex w-full flex-row items-center
+   " transition:name=`playlist ${id} box`
+   >
+      <picture class="aspect-square">
+         <Image width={48} height={48} src={cover} alt={`Cover of ${title} by ${artistsString}`}
+         class="object-cover w-12 h-auto rounded-md" loading={'eager'} transition:name=`playlist ${id} image`
+         >
+      </picture>
+
+      <div class="flex flex-auto flex-col truncate px-1 gap-1 justify-center">
+         <h4 class="text-base font-semibold" transition:name=`playlist ${id} title`>
+         {title}
+         </h4>
+         <span class="text-sm text-gray-400" transition:name=`playlist ${id} artist`>{artistsString}</span>
+      </div>
+   </a>
+</article>

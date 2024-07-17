@@ -1,31 +1,30 @@
 ---
-import { playlists } from '@/lib/data';
+import { playlists, type Playlist } from '@/lib/data';
 import PlayListItemCard from '@/components/PlayListItemCard.astro';
 import Layout from '../layouts/Layout.astro';
+import Greeting from '@/components/Greeting.svelte';
+
+const playList : Playlist = playlists[0]
 ---
 
 <Layout title="Spotify App Clone.">
-    <div id="playlist-container" class="relative top-0 transition-all duration-1000 bg-customColor">
-        <!--//todo <PageHeaders/> -->
-        <div class="relative z-10 px-6 pt-12 pb-4 gap-4 flex flex-col">
-            <!--//todo <Greetings/> -->
-            <h2 class="text-2xl font-bold">Buenos Dias</h2>
+    <div id="playlist-container"
+    class={`relative top-0 transition-all duration-1000 pb-16 bg-violet-spotify`}
+    >
+    <div class="relative z-10 px-6 pt-12 pb-4 gap-4 flex flex-col">
+            <Greeting color={playList.color.accent}/>
             <div class="gap-2 w-full" id="cardlistPlay">
                 {
-                    playlists.map(playlist => <PlayListItemCard playlist={playlist}/>)
+                    playlists.map(playlist => <div data-bgColor aria-label={playlist.color.accent} > <PlayListItemCard playlist={playlist}/> </div>)
                 }
             </div>
         </div>
 
-        <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-dark-spotify via-zinc-900/25"/>
     </div>
 </Layout>
 
 <style>
-    .bg-customColor {
-        background-color: #4A173A
-    }
-
     #cardlistPlay {
         display: grid;
         grid-template-areas: 
@@ -36,3 +35,17 @@ import Layout from '../layouts/Layout.astro';
         grid-template-rows: 1fr auto;
     }
 </style>
+
+<script>
+    const cardItem = document.querySelectorAll('[data-bgColor]')
+    const container = document.getElementById('playlist-container')
+
+    cardItem.forEach( active => {
+        active.addEventListener('mouseenter', ()=> {
+            if(container) container.style.backgroundColor = active.ariaLabel || ''
+        })
+        active.addEventListener('mouseleave', ()=> {
+            if(container) container.style.backgroundColor = ''
+        })
+    })
+</script>

@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import AsideMenu from '../components/AsideMenu.astro'
+import AsideMenu from '@/components/AsideMenu.astro'
+import {Player} from '@/components/Player'
 
 interface Props {
 	title: string;
@@ -23,12 +24,18 @@ const { title } = Astro.props;
 	<body>
 		<div id="app" class="relative h-screen p-2 gap-2">
 			<aside class="[grid-area-aside] flex-col flex overflow-y-auto">
-				<AsideMenu/>
+				<AsideMenu />
 			</aside>
-				<main class="[grid-area:main] overflow-y-auto">
+				<main class="[grid-area:main] overflow-y-auto bg-dark-spotify">
 					<slot/>
 				</main>
-			<footer class="[grid-area:player] min-h-[100px]">Player</footer>
+			<footer class="[grid-area:player] min-h-[75px] bg-black">
+				<Player
+				transition:persist
+				transition:name="media-player"
+				client:load
+				/>
+			</footer>
 		</div>
 	</body>
 </html>
@@ -39,8 +46,8 @@ const { title } = Astro.props;
 		'aside main main'
 		'player player player'
 		;
-		grid-template-columns: minmax(350px, 420px);
-		grid-template-rows: 1fr auto;;
+		grid-template-columns: minmax(350px, 400px);
+		grid-template-rows: 1fr auto;
 	}
 </style>
 <style is:global>

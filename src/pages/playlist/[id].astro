@@ -1,19 +1,28 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { allPlaylists , songs, type Playlist } from '@/lib/data';
 import {Image} from "astro:assets";
+import Layout from '../../layouts/Layout.astro';
+
+import MusicTable from "@/components/MusicaTable.astro";
+import { CardPlayButton } from '@/components/CardPlayButton';
+import { allPlaylists , songs, type Playlist } from '@/lib/data';
+
+import Follow from "@/icons/Follow.astro";
+import Points from "@/icons/Points.astro";
+import Library from '@/icons/Library.astro';
 
 const {id} = Astro.params
-const playList = allPlaylists.find(playlist => playlist.id === id)
+const playList: Playlist | undefined = allPlaylists.find(playlist => playlist.id === id)
 const playListSongs = songs.filter(song => song.albumId === playList?.albumId)
+const colorAccent = playList?.color.accent
+const colorDark = playList?.color.dark
 ---
 
 <Layout title="Spotify App Clone.">
-    <div class="relative flex flex-col h-full bg-zinc-900 overflow-x-hidden">
-        <!--//todo <PageHeaders/> -->
+    <div class="relative flex flex-col h-full top-0 overflow-x-hidden z-0 bg-dark-spotify"
+    style=`background-image: linear-gradient(to bottom, ${colorAccent} 0%, ${colorDark} 50%, #0C0C0C 70%)`>
 
         <header class="flex flex-row gap-8 px-6 mt-20">
-            <picture class="aspect-square w-52 h-52 flex-none">
+            <picture class="aspect-square w-56 h-56 flex-none shadow-2xl shadow-dark-spotify/70">
                 <Image src={playList?.cover || '/#'} alt={`Cover by ${playList?.title}`} class={'object-cover w-full h-full shadow-lg'} width={12} height={12} loading={'eager'}
                 transition:name=`playlist ${id} image`
                 />
@@ -23,7 +32,7 @@ const playListSongs = songs.filter(song => song.albumId === playList?.albumId)
                 <h2 class="flex flex-1 items-end mb-2">Lista</h2>
                 <div>
                     <h2 class="text-6xl font-bold block text-white" transition:name=`playlist ${playList?.id} title`>
-                        {playList?.title}
+                        {playList?.title} 
                     </h2>
                 </div>
                 
@@ -40,14 +49,28 @@ const playListSongs = songs.filter(song => song.albumId === playList?.albumId)
             </div>
         </header>
 
-        <div class="relative z-10 px-6 pt-10"></div>
-
-        <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 -z-10"/>
+        <div class="mt-10 bg-zinc-900/30">
+            <div class="px-6 pt-8 flex justify-between">
+                <div class="flex gap-8">
+                    <CardPlayButton id={id ?? ''} size='large' client:load/>
+                    <div class="flex items-center fill-gray-300 opacity-85 gap-6">
+                        <span class="hover:fill-white duration-100"><Follow /></span>
+                        <span class="hover:fill-white duration-100"><Points /></span>
+                    </div>
+                </div>
+                <div class="flex items-center text-gray-300 opacity-95 hover:text-white fill-slate-300 gap-2">
+                    Lista <Library />
+                </div>
+            </div>
+    
+            <div class="z-10 px-6 pt-6 relative"></div>
+            
+            <section class="px-6 pb-4">
+                <MusicTable songs={playListSongs} idList={id}/>
+            </section>
+        </div>
     </div>
 </Layout>
 
-<style>
-    .bg-customColor {
-        background-color: #4A173A
-    }
-</style>
+
+<!-- ! bg-gradient-to-b  via-violet-spotify via-50% to-dark-spotify to-70% -->
